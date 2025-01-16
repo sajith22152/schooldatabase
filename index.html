@@ -6,174 +6,329 @@
     <title>රත්නසාර විද්‍යාලයීය කළමනාකරණ පද්ධති</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;700&display=swap');
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        :root {
+            --primary: #4f46e5;
+            --secondary: #7c3aed;
+            --accent: #06b6d4;
         }
 
         body {
-            background: linear-gradient(45deg, #1a2a6c, #b21f1f, #fdbb2d);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+            font-family: 'Noto Sans Sinhala', 'Segoe UI', sans-serif;
             min-height: 100vh;
-            padding: 2rem;
+            background: #000;
             color: white;
+            overflow-x: hidden;
         }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, 
+                rgba(79, 70, 229, 0.15) 0%, 
+                rgba(124, 58, 237, 0.15) 25%, 
+                rgba(6, 182, 212, 0.15) 50%, 
+                rgba(0, 0, 0, 1) 100%);
+            z-index: -1;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
+            padding: 2rem;
         }
 
         header {
             text-align: center;
-            margin-bottom: 3rem;
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin: 3rem auto 5rem;
+            max-width: 800px;
         }
 
         h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            color: transparent;
+            animation: titleAnimation 2s ease-in-out forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        @keyframes titleAnimation {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 3rem;
+            line-height: 1.6;
+            animation: fadeIn 2s ease-in-out 0.5s forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            perspective: 1000px;
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 2rem;
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 2.5rem;
+            border-radius: 24px;
             position: relative;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             overflow: hidden;
+            backdrop-filter: blur(10px);
+            animation: cardAppear 0.5s ease-out forwards;
+            opacity: 0;
+            transform: translateY(30px) rotateX(10deg);
+        }
+
+        .card:nth-child(1) { animation-delay: 0.2s; }
+        .card:nth-child(2) { animation-delay: 0.4s; }
+        .card:nth-child(3) { animation-delay: 0.6s; }
+        .card:nth-child(4) { animation-delay: 0.8s; }
+
+        @keyframes cardAppear {
+            to {
+                opacity: 1;
+                transform: translateY(0) rotateX(0);
+            }
         }
 
         .card::before {
             content: '';
             position: absolute;
             top: 0;
-            left: 0;
+            left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transform: translateX(-100%);
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.1),
+                transparent
+            );
             transition: 0.5s;
         }
 
-        .card:hover::before {
-            transform: translateX(100%);
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
         }
 
-        .card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.2);
+        .card:hover::before {
+            left: 100%;
+        }
+
+        .icon-wrapper {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: 0.3s ease;
+        }
+
+        .card:hover .icon-wrapper {
+            transform: scale(1.1) rotate(-5deg);
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .card i {
-            font-size: 3rem;
-            margin-bottom: 1.5rem;
-            color: rgba(255, 255, 255, 0.9);
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            color: transparent;
         }
 
         .card h2 {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             margin-bottom: 1rem;
-            color: white;
+            background: linear-gradient(45deg, white, rgba(255, 255, 255, 0.8));
+            -webkit-background-clip: text;
+            color: transparent;
         }
 
         .card p {
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
         }
 
         .btn {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
             padding: 1rem 2rem;
-            background: rgba(255, 255, 255, 0.2);
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
             color: white;
             text-decoration: none;
-            border-radius: 30px;
+            border-radius: 50px;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
             transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: none;
+            font-size: 1.1rem;
         }
 
         .btn:hover {
-            background: rgba(255, 255, 255, 0.3);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 20px rgba(79, 70, 229, 0.4);
+        }
+
+        .btn i {
+            margin-left: 0.5rem;
+            font-size: 1.2rem;
+            background: none;
+            color: white;
         }
 
         @media (max-width: 768px) {
-            body {
+            .container {
                 padding: 1rem;
-            }
-            
-            header {
-                padding: 1.5rem;
             }
 
             h1 {
-                font-size: 2rem;
+                font-size: 2.5rem;
             }
 
             .card {
-                padding: 1.5rem;
+                padding: 2rem;
+            }
+
+            .icon-wrapper {
+                width: 60px;
+                height: 60px;
+            }
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0);
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100vw);
             }
         }
     </style>
 </head>
 <body>
+    <div class="background"></div>
+    <div class="particles">
+        <div class="particle" style="left: 10%; top: 90%; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 20%; top: 80%; animation-delay: 2s;"></div>
+        <div class="particle" style="left: 30%; top: 70%; animation-delay: 4s;"></div>
+        <div class="particle" style="left: 40%; top: 60%; animation-delay: 6s;"></div>
+        <div class="particle" style="left: 50%; top: 50%; animation-delay: 8s;"></div>
+        <div class="particle" style="left: 60%; top: 40%; animation-delay: 10s;"></div>
+        <div class="particle" style="left: 70%; top: 30%; animation-delay: 12s;"></div>
+        <div class="particle" style="left: 80%; top: 20%; animation-delay: 14s;"></div>
+    </div>
     <div class="container">
         <header>
             <h1>රත්නසාර විද්‍යාලයීය කළමනාකරණ පද්ධති</h1>
+            <p class="subtitle">අපගේ නවීන පාසල් කළමනාකරණ පද්ධතියට සාදරයෙන් පිළිගනිමු. පහත මොඩියුල හරහා ඔබට අවශ්‍ය සේවාව වෙත පිවිසෙන්න.</p>
         </header>
 
         <div class="grid">
             <div class="card">
-                <i class="fas fa-box"></i>
-                <h2>පාසල් ගබඩා කළමනාකරණය</h2>
-                <p>පාසල් ගබඩා භාණ්ඩ සහ තොග පාලනය කිරීමේ පද්ධතිය. භාණ්ඩ ලැබීම්, නිකුත් කිරීම් සහ තොග පාලනය.</p>
-                <a href="https://sajith22152.github.io/schoolstockrcb/" class="btn">පිවිසෙන්න</a>
+                <div class="icon-wrapper">
+                    <i class="fas fa-box"></i>
+                </div>
+                <h2>ගබඩා කළමනාකරණය</h2>
+                <p>පාසල් ගබඩා භාණ්ඩ හා තොග පාලනය, භාණ්ඩ ලැබීම් හා නිකුත් කිරීම්, වාර්තා සහ තොග සමීක්ෂණ පහසුකම්.</p>
+                <a href="https://sajith22152.github.io/schoolstockrcb/" class="btn">
+                    පිවිසෙන්න
+                    <i class="fas fa-arrow-right"></i>
+                </a>
             </div>
 
             <div class="card">
-                <i class="fas fa-book"></i>
-                <h2>පුස්තකාල කළමනාකරණය</h2>
-                <p>පාසල් පුස්තකාල පොත් හා සාමාජික තොරතුරු කළමනාකරණ පද්ධතිය. පොත් ලැයිස්තු, ණය දීම් සහ ආපසු භාර දීම්.</p>
-                <a href="https://sajith22152.github.io/librarymanagementrcb/" class="btn">පිවිසෙන්න</a>
+                <div class="icon-wrapper">
+                    <i class="fas fa-book"></i>
+                </div>
+                <h2>පුස්තකාල පද්ධතිය</h2>
+                <p>පොත් ලැයිස්තු, සාමාජික තොරතුරු, පොත් ණය දීම් හා ආපසු භාර දීම්, දඩ ගණනය කිරීම් සහ වාර්තා.</p>
+                <a href="https://sajith22152.github.io/librarymanagementrcb/" class="btn">
+                    පිවිසෙන්න
+                    <i class="fas fa-arrow-right"></i>
+                </a>
             </div>
 
             <div class="card">
-                <i class="fas fa-user-graduate"></i>
+                <div class="icon-wrapper">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
                 <h2>සිසු කළමනාකරණය</h2>
-                <p>සිසු තොරතුරු සහ පාසල් දත්ත කළමනාකරණ පද්ධතිය. සිසු ලියාපදිංචිය, පැමිණීම සහ ප්‍රගති වාර්තා.</p>
-                <a href="https://sajith22152.github.io/rathanasara-_college_SMS/" class="btn">පිවිසෙන්න</a>
+                <p>සිසු ලියාපදිංචිය, පැමිණීම, ප්‍රගති වාර්තා, විභාග ප්‍රතිඵල, හැසිරීම් වාර්තා සහ වෙනත් සිසු තොරතුරු.</p>
+                <a href="https://sajith22152.github.io/rathanasara-_college_SMS/" class="btn">
+                    පිවිසෙන්න
+                    <i class="fas fa-arrow-right"></i>
+                </a>
             </div>
 
             <div class="card">
-                <i class="fas fa-chalkboard-teacher"></i>
+                <div class="icon-wrapper">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                </div>
                 <h2>පන්ති කළමනාකරණය</h2>
-                <p>පන්ති සහ විෂය මාලා කළමනාකරණ පද්ධතිය. පන්ති කාලසටහන්, විෂය මාලා සහ ගුරු තොරතුරු.</p>
-                <a href="https://sajith22152.github.io/class/" class="btn">පිවිසෙන්න</a>
+                <p>පන්ති කාලසටහන්, විෂය මාලා, ගුරු තොරතුරු, පන්ති භාර ගුරුවරුන් සහ විෂය සම්බන්ධ තොරතුරු.</p>
+                <a href="https://sajith22152.github.io/class/" class="btn">
+                    පිවිසෙන්න
+                    <i class="fas fa-arrow-right"></i>
+                </a>
             </div>
         </div>
     </div>
